@@ -1,15 +1,14 @@
 package test
 
 import (
-	"testing"
+  "testing"
 
-	"github.com/frog-engine/frog-sdk/internal/models"
+  "github.com/frog-engine/frog-sdk/internal/models"
 )
 
 func TestContext(t *testing.T) {
   ctx := models.Context{
-    PreviousResult: nil,
-    TaskID:         "task_1",
+    TaskID: "task_1",
   }
 
   if ctx.TaskID != "task_1" {
