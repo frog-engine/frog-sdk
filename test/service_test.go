@@ -1,10 +1,10 @@
 package test
 
 import (
-	"testing"
+  "testing"
 
-	"github.com/frog-engine/frog-sdk/internal/models"
-	"github.com/frog-engine/frog-sdk/internal/services"
+  "github.com/frog-engine/frog-sdk/internal/models"
+  "github.com/frog-engine/frog-sdk/internal/services"
 )
 
 func TestImageService_GetImageInfo(t *testing.T) {
@@ -13,7 +13,7 @@ func TestImageService_GetImageInfo(t *testing.T) {
     FilePaths: []string{"image1.jpg"},
   }
 
-  resp, err := service.GetImageInfo(req)
+  resp, err := service.GetImageInfo(&req)
   if err != nil {
     t.Fatalf("Expected no error, got %v", err)
   }

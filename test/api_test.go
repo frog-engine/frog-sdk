@@ -1,12 +1,12 @@
 package test
 
 import (
-	"fmt"
-	"log"
-	"testing"
+  "fmt"
+  "log"
+  "testing"
 
-	"github.com/frog-engine/frog-sdk/internal/api"
-	"github.com/frog-engine/frog-sdk/internal/models"
+  "github.com/frog-engine/frog-sdk/internal/api"
+  "github.com/frog-engine/frog-sdk/internal/models"
 )
 
 func TestGetImageInfo(t *testing.T) {
@@ -15,7 +15,7 @@ func TestGetImageInfo(t *testing.T) {
   sdkApi := api.NewImageApi()
 
   // 获取图片基本信息示例
-  resp, err := sdkApi.GetImageInfo(models.ImageInfoRequest{FilePaths: []string{"image1.jpg"}})
+  resp, err := sdkApi.GetImageInfo(&models.ImageInfoRequest{FilePaths: []string{"image1.jpg"}})
   if err != nil {
     log.Fatalf("Error getting image info: %v", err)
   }
