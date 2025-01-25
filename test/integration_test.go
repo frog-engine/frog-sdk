@@ -1,17 +1,17 @@
 package test
 
 import (
-  "fmt"
-  "log"
-  "testing"
+	"fmt"
+	"log"
+	"testing"
 
-  "frog-sdk/internal/api"
-  "frog-sdk/internal/models"
+	"github.com/frog-engine/frog-sdk/internal/api"
+	"github.com/frog-engine/frog-sdk/internal/models"
 )
 
 func TestIntegration(t *testing.T) {
   // 创建一个新的 SDKApi 实例
-  sdkApi := api.NewSDKApi()
+  sdkApi := api.NewImageApi()
 
   // 获取图片基本信息示例
   resp, err := sdkApi.GetImageInfo(models.ImageInfoRequest{FilePaths: []string{"image1.jpg"}})

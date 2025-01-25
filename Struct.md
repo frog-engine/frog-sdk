@@ -1,9 +1,10 @@
 # SDK 目录结构
 ```md
-image-transcoder-sdk/
+frog-sdk/
+├── init.go                     # 对外API入库函数
 ├── cmd/                        # 主应用程序目录（可选）
-│   └── image-transcoder/      # SDK的命令行工具
-│       └── main.go            # 入口文件
+│   └── frog-sdk/               # SDK的命令行工具
+│       └── main.go             # 入口文件
 ├── internal/                   # 内部实现包
 │   ├── api/                    # API接口定义
 │   │   ├── api.go              # API接口定义

@@ -3,11 +3,14 @@ package cmd
 import (
   "fmt"
   "os/exec"
+
+  "github.com/frog-engine/frog-sdk/pkg/logger"
 )
 
 // ImageMagickGetImageDimensions 使用 ImageMagick 获取图片的宽度和高度
 func GetImageDimensions(filePath string) (int, int, error) {
-  cmd := exec.Command("identify", "-format", "%w %h", filePath)
+  // cmd := exec.Command("identify", "-format", "%w %h", filePath)
+  cmd := exec.Command("stat", filePath)
 
   output, err := cmd.Output()
   if err != nil {
@@ -25,8 +28,10 @@ func GetImageDimensions(filePath string) (int, int, error) {
 
 // ImageMagickConvertImageFormat 使用 ImageMagick 转换图片格式
 func ConvertImageFormat(sourcePath, outputPath string) error {
-  cmd := exec.Command("convert", sourcePath, outputPath)
-  return cmd.Run()
+  logger.Info("sourcePath", sourcePath, outputPath)
+  return nil
+  // cmd := exec.Command("convert", sourcePath, outputPath)
+  // return cmd.Run()
 }
 
 // ImageMagickResizeImage 使用 ImageMagick 调整图片大小

@@ -1,9 +1,10 @@
 package test
 
 import (
-  "frog-sdk/internal/models"
-  "frog-sdk/internal/services"
-  "testing"
+	"testing"
+
+	"github.com/frog-engine/frog-sdk/internal/models"
+	"github.com/frog-engine/frog-sdk/internal/services"
 )
 
 func TestImageService_GetImageInfo(t *testing.T) {

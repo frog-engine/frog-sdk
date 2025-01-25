@@ -1,8 +1,9 @@
 package test
 
 import (
-  "frog-sdk/internal/models"
-  "testing"
+	"testing"
+
+	"github.com/frog-engine/frog-sdk/internal/models"
 )
 
 func TestContext(t *testing.T) {

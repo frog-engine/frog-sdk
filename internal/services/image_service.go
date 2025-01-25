@@ -1,12 +1,14 @@
 package services
 
 import (
+  "bytes"
   "fmt"
+  "image"
   "os"
   "path/filepath"
 
-  cmd "frog-sdk/internal/command"
-  "frog-sdk/internal/models"
+  cmd "github.com/frog-engine/frog-sdk/internal/command"
+  "github.com/frog-engine/frog-sdk/internal/models"
 )
 
 // ImageService 接口定义，处理图片相关的业务逻辑
@@ -19,8 +21,8 @@ func NewImageService() *ImageService {
 }
 
 // GetImageInfo 获取图片基本信息
-func (s *ImageService) GetImageInfo(req models.ImageInfoRequest) ([]models.ImageInfoResponse, error) {
-  var responses []models.ImageInfoResponse
+func (s *ImageService) GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageInfoResponse, error) {
+  var responses []*models.ImageInfoResponse
 
   for _, filePath := range req.FilePaths {
     if _, err := os.Stat(filePath); err != nil {
@@ -33,7 +35,7 @@ func (s *ImageService) GetImageInfo(req models.ImageInfoRequest) ([]models.Image
       return nil, err
     }
 
-    responses = append(responses, models.ImageInfoResponse{
+    responses = append(responses, &models.ImageInfoResponse{
       FilePath: filePath,
       Format:   filepath.Ext(filePath)[1:], // 获取扩展名作为格式
       Width:    width,
@@ -45,17 +47,29 @@ func (s *ImageService) GetImageInfo(req models.ImageInfoRequest) ([]models.Image
 }
 
 // Convert 转换图片格式
-func (s *ImageService) ImageTranscode(req models.ConvertRequest) (models.ConvertResponse, error) {
+func (s *ImageService) ImageTranscode(req *models.ConvertRequest) (*models.ConvertResponse, error) {
   if _, err := os.Stat(req.SourcePath); err != nil {
-    return models.ConvertResponse{}, fmt.Errorf("source file not found: %w", err)
+    return nil, fmt.Errorf("source file not found: %w", err)
   }
 
   outputPath := fmt.Sprintf("%s.%s", req.SourcePath[:len(req.SourcePath)-len(filepath.Ext(req.SourcePath))], req.TargetFormat)
 
   // 使用提取的命令进行格式转换
   if err := cmd.ConvertImageFormat(req.SourcePath, outputPath); err != nil { // 调用新函数
-    return models.ConvertResponse{}, fmt.Errorf("failed to convert image: %w", err)
+    return &models.ConvertResponse{}, fmt.Errorf("failed to convert image: %w", err)
   }
 
-  return models.ConvertResponse{OutputPath: outputPath}, nil
+  return &models.ConvertResponse{OutputPath: outputPath}, nil
+}
+
+// ReadImageBlob 用于读取图像数据并进行解码处理
+func (s *ImageService) ReadImageBlob(imageData []byte) (image.Image, error) {
+  // 使用 image.Decode 函数来解码图像数据
+  img, _, err := image.Decode(bytes.NewReader(imageData))
+  if err != nil {
+    return nil, fmt.Errorf("failed to decode image data: %w", err)
+  }
+
+  // 返回解码后的图像对象
+  return img, nil
 }

@@ -3,7 +3,7 @@ Image Transcoder SDK 是一个用于图片和视频处理的Go语言SDK，支持
 
 ## 服务分层
 ```bash
-业务层（按需生产/预生产） ->  服务层(同步/异步) -> 图片统一转码SDK -> 转码工具
+业务层（即时转码/异步转码） ->  服务层(同步/异步) -> 图片转码SDK -> 开源转码工具
 ```
 
 ## 主要功能
@@ -37,12 +37,14 @@ $ cd frog-sdk
 ```bash
 $ go mod download
 $ go mod tidy
+$ go mod vendor
 $ go mod verify
 ```
 
 4. 启动服务
 ```bash
-$ go run cmd/frog-go/main.go
+# SDK包供上层引用，此处启动仅是验证
+$ go run cmd/frog-sdk/main.go
 # 看见启动信息
 # frog-sdk run successfully
 ```
