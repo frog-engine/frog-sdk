@@ -41,7 +41,15 @@ $ go mod vendor
 $ go mod verify
 ```
 
-4. 启动服务
+4. 安装基础工具，查看版本
+  1) ffmpeg（带 ffprobe）
+  $ ffmpeg -version
+  $ ffprobe -version
+  2) imagemagicker
+  $ convert -version
+  $ identify -version
+
+5. 启动服务
 ```bash
 # SDK包供上层引用，此处启动仅是验证
 $ go run cmd/frog-sdk/main.go

@@ -46,6 +46,10 @@ func (s *ImageApi) GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageIn
   return s.imageService.GetImageInfo(req)
 }
 
+func (s *ImageApi) ReadImageInfo(imageData []byte) (map[string]interface{}, error) {
+  return s.imageService.ReadImageInfo(imageData)
+}
+
 func (s *ImageApi) ReadImageBlob(imageData []byte) (image.Image, error) {
   return s.imageService.ReadImageBlob(imageData)
 }

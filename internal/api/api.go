@@ -12,6 +12,7 @@ type Api interface {
   Name() string
   GetConfig() *config.Config
   ReadImageBlob(imageData []byte) (image.Image, error)
+  ReadImageInfo(imageData []byte) (map[string]interface{}, error)
   GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageInfoResponse, error)
   ImageConvert(req *models.ConvertRequest) (*models.ConvertResponse, error)
   GetTaskInfo(taskID string) (*models.TaskResponse, error)

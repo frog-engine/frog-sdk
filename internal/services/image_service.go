@@ -20,6 +20,10 @@ func NewImageService() *ImageService {
   return &ImageService{}
 }
 
+func (s *ImageService) ReadImageInfo(imageData []byte) (map[string]interface{}, error) {
+  return cmd.ReadImageInfo(imageData)
+}
+
 // GetImageInfo 获取图片基本信息
 func (s *ImageService) GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageInfoResponse, error) {
   var responses []*models.ImageInfoResponse
