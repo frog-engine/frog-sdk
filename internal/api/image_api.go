@@ -4,7 +4,8 @@ import (
   "image"
 
   "github.com/frog-engine/frog-sdk/config"
-  "github.com/frog-engine/frog-sdk/internal/models"
+  internalmodels "github.com/frog-engine/frog-sdk/internal/models"
+  pkgmodels "github.com/frog-engine/frog-sdk/pkg/models"
   "github.com/frog-engine/frog-sdk/internal/services"
 )
 
@@ -42,7 +43,7 @@ func (a *ImageApi) GetConfig() *config.Config {
 }
 
 // GetImageInfo 获取图片基本信息
-func (s *ImageApi) GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageInfoResponse, error) {
+func (s *ImageApi) GetImageInfo(req *internalmodels.ImageInfoRequest) ([]*internalmodels.ImageInfoResponse, error) {
   return s.imageService.GetImageInfo(req)
 }
 
@@ -55,12 +56,17 @@ func (s *ImageApi) ReadImageBlob(imageData []byte) (image.Image, error) {
 }
 
 // ImageConvert 转换图片格式
-func (s *ImageApi) ImageConvert(req *models.ConvertRequest) (*models.ConvertResponse, error) {
+func (s *ImageApi) ImageConvert(req *internalmodels.ConvertRequest) (*internalmodels.ConvertResponse, error) {
   return s.imageService.ImageTranscode(req)
 }
 
+// ProcessImage 同步处理图片字节流
+func (s *ImageApi) ProcessImage(imageData []byte, req *pkgmodels.ProcessImageRequest) ([]byte, error) {
+  return s.imageService.ProcessImage(imageData, req)
+}
+
 // GetTaskInfo 获取任务信息
-func (s *ImageApi) GetTaskInfo(taskID string) (*models.TaskResponse, error) {
+func (s *ImageApi) GetTaskInfo(taskID string) (*internalmodels.TaskResponse, error) {
   // 调用任务服务获取任务信息
   return s.taskService.GetTaskInfo(taskID)
 }

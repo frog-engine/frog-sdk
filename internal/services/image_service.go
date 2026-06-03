@@ -8,7 +8,9 @@ import (
   "path/filepath"
 
   cmd "github.com/frog-engine/frog-sdk/internal/command"
-  "github.com/frog-engine/frog-sdk/internal/models"
+  internalmodels "github.com/frog-engine/frog-sdk/internal/models"
+  pkgmodels "github.com/frog-engine/frog-sdk/pkg/models"
+  "github.com/frog-engine/frog-sdk/internal/processor"
 )
 
 // ImageService 接口定义，处理图片相关的业务逻辑
@@ -25,8 +27,8 @@ func (s *ImageService) ReadImageInfo(imageData []byte) (map[string]interface{}, 
 }
 
 // GetImageInfo 获取图片基本信息
-func (s *ImageService) GetImageInfo(req *models.ImageInfoRequest) ([]*models.ImageInfoResponse, error) {
-  var responses []*models.ImageInfoResponse
+func (s *ImageService) GetImageInfo(req *internalmodels.ImageInfoRequest) ([]*internalmodels.ImageInfoResponse, error) {
+  var responses []*internalmodels.ImageInfoResponse
 
   for _, filePath := range req.FilePaths {
     if _, err := os.Stat(filePath); err != nil {
@@ -39,7 +41,7 @@ func (s *ImageService) GetImageInfo(req *models.ImageInfoRequest) ([]*models.Ima
       return nil, err
     }
 
-    responses = append(responses, &models.ImageInfoResponse{
+    responses = append(responses, &internalmodels.ImageInfoResponse{
       FilePath: filePath,
       Format:   filepath.Ext(filePath)[1:], // 获取扩展名作为格式
       Width:    width,
@@ -51,7 +53,7 @@ func (s *ImageService) GetImageInfo(req *models.ImageInfoRequest) ([]*models.Ima
 }
 
 // Convert 转换图片格式
-func (s *ImageService) ImageTranscode(req *models.ConvertRequest) (*models.ConvertResponse, error) {
+func (s *ImageService) ImageTranscode(req *internalmodels.ConvertRequest) (*internalmodels.ConvertResponse, error) {
   if _, err := os.Stat(req.SourcePath); err != nil {
     return nil, fmt.Errorf("source file not found: %w", err)
   }
@@ -60,10 +62,15 @@ func (s *ImageService) ImageTranscode(req *models.ConvertRequest) (*models.Conve
 
   // 使用提取的命令进行格式转换
   if err := cmd.ConvertImageFormat(req.SourcePath, outputPath); err != nil { // 调用新函数
-    return &models.ConvertResponse{}, fmt.Errorf("failed to convert image: %w", err)
+    return &internalmodels.ConvertResponse{}, fmt.Errorf("failed to convert image: %w", err)
   }
 
-  return &models.ConvertResponse{OutputPath: outputPath}, nil
+  return &internalmodels.ConvertResponse{OutputPath: outputPath}, nil
+}
+
+// ProcessImage 按请求参数处理图片并返回编码后的字节
+func (s *ImageService) ProcessImage(imageData []byte, req *pkgmodels.ProcessImageRequest) ([]byte, error) {
+	return processor.ProcessImageBytes(imageData, req)
 }
 
 // ReadImageBlob 用于读取图像数据并进行解码处理
